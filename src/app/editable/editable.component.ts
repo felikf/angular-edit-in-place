@@ -34,7 +34,7 @@ export class EditableComponent implements OnInit {
   }
 
   private viewModeHandler() {
-    fromEvent(this.element.nativeElement, 'dblclick')
+    fromEvent(this.element, 'dblclick')
       .subscribe(() => {
         this.mode = 'edit';
         this.editModeSubject.next(true);
@@ -43,7 +43,7 @@ export class EditableComponent implements OnInit {
 
   private editModeHandler() {
     const clickOutside$ = fromEvent(document, 'click').pipe(
-      filter(({target}) => this.element.nativeElement.contains(target) === false),
+      filter(({target}) => this.element.contains(target) === false),
       take(1),
       tap(() => console.log('clickOutside$ fires'))
     );
@@ -53,12 +53,16 @@ export class EditableComponent implements OnInit {
       switchMapTo(clickOutside$),
       tap(() => console.log('after switchMapTo fires')),
     ).subscribe(event => {
-      this.update.next();
-      this.mode = 'view';
+      this.toViewMode();
     });
   }
 
-  private get element(): ElementRef {
-    return this.host;
+  toViewMode() {
+    this.update.next();
+    this.mode = 'view';
+  }
+
+  private get element(): any {
+    return this.host.nativeElement;
   }
 }

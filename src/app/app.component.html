@@ -21,9 +21,7 @@
         <app-editable (update)="updated(index, 'name')">
           <ng-template appViewMode>{{ user.name }}</ng-template>
           <ng-template appEditMode>
-            <mat-form-field>
-              <input matInput [formControl]="getControl(index, 'name')">
-            </mat-form-field>
+            <input matInput [formControl]="getControl(index, 'name')" appSaveOnEnter appFocusable>
           </ng-template>
 
         </app-editable>
@@ -31,10 +29,10 @@
       </td>
       <td>
         <app-editable (update)="updated(index, 'email')">
-          <ng-template appViewMode>{{ user.email }}</ng-template>
-          <ng-template appEditMode>
-            <input [formControl]="getControl(index, 'email')">
-          </ng-template>
+          <span *appViewMode>{{ user.email }}</span>
+          <span *appEditMode>
+            <input [formControl]="getControl(index, 'email')" appSaveOnEnter appFocusable>
+          </span>
 
         </app-editable>
 
